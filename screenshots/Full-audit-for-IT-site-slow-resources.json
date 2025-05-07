@@ -1,0 +1,52 @@
+[
+  {
+    "name": "https://www.forbes.com/advisor/it/wp-content/themes/fa-it-theme/dist/advisor_it/js/build.js?ver=1744296427",
+    "duration": 1335.6,
+    "initiatorType": "script"
+  },
+  {
+    "name": "https://www.forbes.com/advisor/it/wp-content/themes/fa-it-theme/dist/advisor_it/js/lander-page-build.js?ver=1734543180",
+    "duration": 956.5,
+    "initiatorType": "script"
+  },
+  {
+    "name": "https://www.forbes.com/advisor/it/wp-content/plugins/base-switcher/js/validator.min.js?v=1732610661",
+    "duration": 915.7,
+    "initiatorType": "script"
+  },
+  {
+    "name": "https://www.forbes.com/advisor/it/wp-content/themes/fa-it-theme/dist/advisor_it/js/calculator-category.min.js?xver=1734543180",
+    "duration": 811.8,
+    "initiatorType": "script"
+  },
+  {
+    "name": "https://www.googletagmanager.com/gtag/js?id=G-HY3LZWHH6W&l=dataLayer&cx=c",
+    "duration": 725.1,
+    "initiatorType": "script"
+  },
+  {
+    "name": "https://www.googletagmanager.com/gtag/js?id=G-HY3LZWHH6W",
+    "duration": 597.3,
+    "initiatorType": "script"
+  },
+  {
+    "name": "https://www.forbes.com/advisor/it/wp-content/uploads/2023/05/Loan.svg",
+    "duration": 595.8,
+    "initiatorType": "img"
+  },
+  {
+    "name": "https://www.googletagmanager.com/gtm.js?id=GTM-K39CHDC",
+    "duration": 580.5,
+    "initiatorType": "script"
+  },
+  {
+    "name": "https://www.forbes.com/advisor/it/wp-content/uploads/2023/05/Travel-insurance.svg",
+    "duration": 568.3,
+    "initiatorType": "img"
+  },
+  {
+    "name": "https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Roboto&family=Work+Sans:wght@400;500;600;700&display=swap",
+    "duration": 558.1,
+    "initiatorType": "link"
+  }
+]

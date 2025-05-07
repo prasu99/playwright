@@ -1,0 +1,52 @@
+[
+  {
+    "name": "https://www.usatoday.com/money/blueprint/images/uploads/2023/10/04101024/GettyImages-629743180-scaled-e1696428657906.jpg?width=700&fit=cover&format=webp",
+    "duration": 1041.2,
+    "initiatorType": "img"
+  },
+  {
+    "name": "https://collector.brandmetrics.com/c.js?siteid=6384de98-7e2a-4671-b441-6ea4cb092952&toploc=usat-prod.mktplatforms.com&rnd=1094619&json",
+    "duration": 892.7,
+    "initiatorType": "fetch"
+  },
+  {
+    "name": "https://btloader.com/websiteconfig?bt_env=prod&o=5067096939560960&w=usat-prod.mktplatforms.com",
+    "duration": 712.1,
+    "initiatorType": "fetch"
+  },
+  {
+    "name": "https://www.googletagmanager.com/gtag/js?id=G-KSVCHT6NHZ&l=dataLayer&cx=c",
+    "duration": 597.2,
+    "initiatorType": "script"
+  },
+  {
+    "name": "https://www.googletagmanager.com/gtag/js?id=G-KSVCHT6NHZ",
+    "duration": 581.6,
+    "initiatorType": "script"
+  },
+  {
+    "name": "https://htlb.casalemedia.com/openrtb/pbjs?s=196728",
+    "duration": 541.8,
+    "initiatorType": "fetch"
+  },
+  {
+    "name": "https://www.googletagmanager.com/gtag/js?id=G-KSVCHT6NHZ&l=dataLayer&cx=c",
+    "duration": 517.9,
+    "initiatorType": "fetch"
+  },
+  {
+    "name": "https://grid.bidswitch.net/hbjson?sp=trustx",
+    "duration": 513.4,
+    "initiatorType": "fetch"
+  },
+  {
+    "name": "https://tlx.3lift.com/header/auction?lib=prebid&v=9.30.0&referrer=https%3A%2F%2Fusat-prod.mktplatforms.com%2Fmoney%2Fblueprint%2F&tmax=1600",
+    "duration": 503.2,
+    "initiatorType": "fetch"
+  },
+  {
+    "name": "https://pixel.adsafeprotected.com/services/pub?anId=922805&slot=%7Bid:gpt-poster-1,ss:%5B300.250,300.600%5D,p:7103/usatoday/poster/money/personalfinance,t:display%7D&slot=%7Bid:gpt-banner_bottom-1,ss:%5B300.250,320.50%5D,p:7103/usatoday_mobile/mobileweb-banner_bottom/money/personalfinance,t:display%7D&slot=%7Bid:gpt-before-right-rail,ss:%5B300.250,320.50%5D,p:7103/usatoday_mobile/mobileweb-banner_bottom/money/personalfinance,t:display%7D&slot=%7Bid:gpt-before-top-stories,ss:%5B300.250,320.50%5D,p:7103/usatoday_mobile/mobileweb-banner_bottom/money/personalfinance,t:display%7D&slot=%7Bid:gpt-before-dive-deeper,ss:%5B300.250,320.50%5D,p:7103/usatoday_mobile/mobileweb-banner_bottom/money/personalfinance,t:display%7D&slot=%7Bid:gpt-before-more-stories,ss:%5B300.250,320.50%5D,p:7103/usatoday_mobile/mobileweb-banner_bottom/money/personalfinance,t:display%7D&slot=%7Bid:gpt-posterscroll-0,ss:%5B300.250,300.600,300.1050%5D,p:7103/usatoday/poster_scroll/money/personalfinance,t:display%7D&slot=%7Bid:gpt-posterscroll-1,ss:%5B300.250,300.600,300.1050%5D,p:7103/usatoday/poster_scroll/money/personalfinance,t:display%7D&slot=%7Bid:gpt-posterscroll-2,ss:%5B300.250,300.600,300.1050%5D,p:7103/usatoday/poster_scroll/money/personalfinance,t:display%7D&slot=%7Bid:gpt-posterscroll-3,ss:%5B300.250,300.600,300.1050%5D,p:7103/usatoday/poster_scroll/money/personalfinance,t:display%7D&slot=%7Bid:gpt-posterscroll-4,ss:%5B300.250,300.600,300.1050%5D,p:7103/usatoday/poster_scroll/money/personalfinance,t:display%7D&slot=%7Bid:gpt-posterscroll-5,ss:%5B300.250,300.600,300.1050%5D,p:7103/usatoday/poster_scroll/money/personalfinance,t:display%7D&slot=%7Bid:gpt-posterscroll-6,ss:%5B300.250,300.600,300.1050%5D,p:7103/usatoday/poster_scroll/money/personalfinance,t:display%7D&slot=%7Bid:gpt-posterscroll-7,ss:%5B300.250,300.600,300.1050%5D,p:7103/usatoday/poster_scroll/money/personalfinance,t:display%7D&wr=1280.720&sr=1280.720&sessionId=373c3663-4db7-ee99-0d46-7fda41772e9c&url=https%253A%252F%252Fusat-prod.mktplatforms.com%252Fmoney%252Fblueprint%252F",
+    "duration": 498.9,
+    "initiatorType": "xmlhttprequest"
+  }
+]

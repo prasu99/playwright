@@ -1,0 +1,52 @@
+[
+  {
+    "name": "https://www.googletagmanager.com/gtag/js?id=G-HY3LZWHH6W",
+    "duration": 559,
+    "initiatorType": "script"
+  },
+  {
+    "name": "https://thumbor.forbes.com/thumbor/fit-in/x/https://www.forbes.com/advisor/it/wp-content/uploads/2023/05/assicurazione-auto.webp",
+    "duration": 460,
+    "initiatorType": "img"
+  },
+  {
+    "name": "https://thumbor.forbes.com/thumbor/fit-in/x/https://www.forbes.com/advisor/it/wp-content/uploads/2023/06/LLC-service.webp",
+    "duration": 447,
+    "initiatorType": "img"
+  },
+  {
+    "name": "https://www.forbes.com/advisor/wp-content/themes/fadv/assets/img/ZipImage/1x1.jpg?version=1744708353253.96",
+    "duration": 435,
+    "initiatorType": "xmlhttprequest"
+  },
+  {
+    "name": "https://www.google-analytics.com/g/collect?v=2&tid=G-HY3LZWHH6W&gtm=45je54e0h2v9172999279za200&_p=1744708342639&gcs=G111&gcd=13t3t3t3t5l1&npa=0&dma=0&tag_exp=102509683~102803279~102813109~102887800~102926062~103021830~103027016~103051953~103055465~103077950&tt=external&cid=681556411.1744708353&ul=en-us&sr=1280x720&frm=0&pscdl=noapi&_s=1&dl=https%3A%2F%2Fwww.forbes.com%2Fadvisor%2Fit%2F&sid=1744708353&sct=1&seg=0&dt=Scelte%20finanziarie%20intelligenti%20in%20tutta%20semplicit%C3%A0&_tu=QA&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&ep.pageTitle=Scelte%20finanziarie%20intelligenti%20in%20tutta%20semplicit%C3%A0&ep.AuthorName=FMP%20Admin&ep.authorId=1&ep.AuthorRole=Administrator&ep.PrimaryCategory=sticky-cta-test&ep.SecondaryCategory=&ep.TertiaryCategory=&ep.PublishedDate=May%2018%2C%202022&ep.UpdatedDate=Jan%2031%2C%202024%2C%205%3A38pm&ep.TemplateName=Home&ep.partnersOnPage=&ep.shortcodesOnPage=&ep.RA_Feed=0&ep.MarketplaceClientId=FATebhJhIXWsLbIgr4O2Tu&ep.UserId=FATebhJhIXWsLbIgr4O2Tu&ep.UserAgent=Mozilla%2F5.0%20(Macintosh%3B%20Intel%20Mac%20OS%20X%2010_15_7)%20AppleWebKit%2F605.1.15%20(KHTML%2C%20like%20Gecko)%20Version%2F18.4%20Safari%2F605.1.15&tfd=11224",
+    "duration": 365,
+    "initiatorType": "fetch"
+  },
+  {
+    "name": "https://thumbor.forbes.com/thumbor/fit-in/x/https://www.forbes.com/advisor/it/wp-content/uploads/2023/05/investire.png",
+    "duration": 357,
+    "initiatorType": "img"
+  },
+  {
+    "name": "https://thumbor.forbes.com/thumbor/fit-in/x/https://www.forbes.com/advisor/it/wp-content/uploads/2023/03/Top-10-crypto-currencies.png",
+    "duration": 357,
+    "initiatorType": "img"
+  },
+  {
+    "name": "https://www.googletagmanager.com/gtag/js?id=G-HY3LZWHH6W&l=dataLayer&cx=c",
+    "duration": 336,
+    "initiatorType": "script"
+  },
+  {
+    "name": "https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Roboto&family=Work+Sans:wght@400;500;600;700&display=swap",
+    "duration": 332,
+    "initiatorType": "link"
+  },
+  {
+    "name": "https://www.googletagmanager.com/gtm.js?id=GTM-K39CHDC",
+    "duration": 322,
+    "initiatorType": "script"
+  }
+]
