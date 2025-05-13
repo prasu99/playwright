@@ -1,50 +1,102 @@
-name: Test and Notify
+name: Playwright Test Results
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-  workflow_dispatch:
+  schedule:
+    - cron: "0 */3 * * *"  # Runs every 3 hours
+  workflow_dispatch:  # Allows manual triggering
 
 jobs:
   test:
     runs-on: ubuntu-latest
-    
+    strategy:
+      matrix:
+        site: [AU, CA, IT]
+
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18'
-        
-    - name: Install dependencies
-      run: npm install
-      
-    - name: Install Playwright browsers
-      run: npx playwright install --with-deps
-      
-    - name: Run Playwright tests
-      run: npx playwright test
-      
-    - name: Send email notification
-      uses: dawidd6/action-send-mail@v3
-      with:
-        server_address: smtp.gmail.com
-        server_port: 465
-        username: ${{ secrets.MAIL_USERNAME }}
-        password: ${{ secrets.MAIL_PASSWORD }}
-        subject: Playwright Test Results
-        body: |
-          Test run completed for commit: ${{ github.sha }}
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: |
+          npm install
+          npx playwright install --with-deps
+
+      - name: Create directories
+        run: |
+          mkdir -p test-results/${{ matrix.site }}
+          mkdir -p screenshots/${{ matrix.site }}
+          mkdir -p reports/${{ matrix.site }}
+
+      - name: Run Playwright tests
+        run: |
+          SITE=${{ matrix.site }}
+          TEST_FILE="tests/${SITE}.spec.ts"
           
-          Repository: ${{ github.repository }}
-          Branch: ${{ github.ref }}
-          Run by: ${{ github.actor }}
+          echo "Running tests for $SITE..."
           
-          View the full test results here:
-          ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        to: ${{ secrets.NOTIFICATION_EMAIL }}
-        from: GitHub Actions
-        content_type: text/html 
+          # Function to add delay
+          delay() {
+            echo "Waiting for 60 seconds..."
+            sleep 60
+          }
+          
+          if npx playwright test "$TEST_FILE" --reporter=html,json,list; then
+            echo "$SITE ✅ Tests passed" > test-results/$SITE/status.txt
+            delay
+          else
+            echo "$SITE ❌ Tests failed" > test-results/$SITE/status.txt
+            delay
+          fi
+
+      - name: Organize test results
+        run: |
+          SITE=${{ matrix.site }}
+          
+          # Move HTML report
+          mv playwright-report/* test-results/$SITE/
+          mv test-results/$SITE/playwright-report.html test-results/$SITE/$(date +%Y-%m-%d_%H-%M-%S)_report.html
+          
+          # Move screenshots
+          mv screenshots/* test-results/$SITE/screenshots/
+          
+          # Move performance reports
+          mv reports/* test-results/$SITE/reports/
+          
+          # Create summary file
+          echo "# Test Run Summary - $(date)" > test-results/$SITE/summary.md
+          echo "## Test Status" >> test-results/$SITE/summary.md
+          cat test-results/$SITE/status.txt >> test-results/$SITE/summary.md
+          echo "" >> test-results/$SITE/summary.md
+          echo "## Performance Reports" >> test-results/$SITE/summary.md
+          echo "\`\`\`" >> test-results/$SITE/summary.md
+          cat test-results/$SITE/reports/performance-metrics.csv >> test-results/$SITE/summary.md
+          echo "\`\`\`" >> test-results/$SITE/summary.md
+          echo "" >> test-results/$SITE/summary.md
+          echo "## Screenshots" >> test-results/$SITE/summary.md
+          echo "Screenshots are available in the \`screenshots\` directory" >> test-results/$SITE/summary.md
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-${{ matrix.site }}
+          path: test-results/${{ matrix.site }}
+          retention-days: 7
+
+      - name: Upload screenshots
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots-${{ matrix.site }}
+          path: test-results/${{ matrix.site }}/screenshots
+          retention-days: 7
+
+      - name: Upload reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports-${{ matrix.site }}
+          path: test-results/${{ matrix.site }}/reports
+          retention-days: 7 
