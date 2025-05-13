@@ -14,6 +14,13 @@ if (!fs.existsSync(screenshotsDir)) {
 test.setTimeout(60000);
 
 
+// Helper function for delay
+async function delay(ms: number) {
+  console.log(`Waiting for ${ms/1000} seconds...`);
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+
 // Helper functions
 async function setupPage(page: Page) {
   await page.setViewportSize({ width: 1280, height: 720 });
@@ -58,6 +65,8 @@ async function verifyCommonElements(page: Page) {
   await expect(page.getByRole('link', { name: 'Forbes Logo' })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Subscribe' })).toBeVisible();
   await expect(page.getByRole('link', { name: 'forbes', exact: true })).toBeVisible();
+  await trackPerformanceMetrics(page, 'Current page');
+  await delay(60000); // 1 minute delay
 }
 
 // Home page test
@@ -70,7 +79,7 @@ test('Home page verification', async ({ page }) => {
   await expect(page.getByRole('img', { name: 'Smart Financial Decisions' })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Subscribe' })).toBeVisible();
   await expect(page.getByRole('link', { name: 'forbes', exact: true })).toBeVisible();
-  await trackPerformanceMetrics(page, 'Home page');
+  await verifyCommonElements(page);
 });
 
 // Investing page test
@@ -82,7 +91,6 @@ test('Investing page verification', async ({ page }) => {
   await verifyCommonElements(page);
   await page.getByRole('link', { name: 'How To Invest', exact: true }).click();
   await expect(page.getByRole('link', { name: 'How To Invest', exact: true })).toBeVisible();
-  await trackPerformanceMetrics(page, 'Investing page');
 });
 
 // Credit Cards page test
@@ -92,7 +100,6 @@ test('Credit Cards page verification', async ({ page }) => {
   await page.mouse.click(Math.random() * 1000, Math.random() * 1000);
   await expect(page.locator('h1')).toContainText('Our Pick Of The Best Credit Cards For Australians');
   await verifyCommonElements(page);
-  await trackPerformanceMetrics(page, 'Credit Cards page');
 });
 
 // SuperFunds page test
@@ -102,7 +109,6 @@ test('SuperFunds page verification', async ({ page }) => {
   await page.mouse.click(Math.random() * 1000, Math.random() * 1000);
   await expect(page.locator('h1')).toContainText('Our Pick Of The Best Default Superannuation Funds In 2025');
   await verifyCommonElements(page);
-  await trackPerformanceMetrics(page, 'SuperFunds page');
 });
 
 // Car Insurance page test
@@ -112,7 +118,6 @@ test('Car Insurance page verification', async ({ page }) => {
   await page.mouse.click(Math.random() * 1000, Math.random() * 1000);
   await expect(page.locator('h1')).toContainText('Our Pick Of The Best Comprehensive Car Insurance Providers in Australia');
   await verifyCommonElements(page);
-  await trackPerformanceMetrics(page, 'Car Insurance page');
 });
 
 // Health Insurance page test
@@ -122,7 +127,6 @@ test('Health Insurance page verification', async ({ page }) => {
   await page.mouse.click(Math.random() * 1000, Math.random() * 1000);
   await expect(page.locator('h1')).toContainText('Our Pick Of The Best Private Health Insurance Providers In Australia');
   await verifyCommonElements(page);
-  await trackPerformanceMetrics(page, 'Health Insurance page');
 });
 
 // Life Insurance page test
@@ -132,7 +136,6 @@ test('Life Insurance page verification', async ({ page }) => {
   await page.mouse.click(Math.random() * 1000, Math.random() * 1000);
   await expect(page.locator('h1')).toContainText('Our Pick Of The Best Life Insurance Providers For Australians');
   await verifyCommonElements(page);
-  await trackPerformanceMetrics(page, 'Life Insurance page');
 });
 
 // Pet Insurance page test
@@ -142,7 +145,6 @@ test('Pet Insurance page verification', async ({ page }) => {
   await page.mouse.click(Math.random() * 1000, Math.random() * 1000);
   await expect(page.locator('h1')).toContainText('Our Pick Of The Best Comprehensive Pet Insurance Policies In Australia');
   await verifyCommonElements(page);
-  await trackPerformanceMetrics(page, 'Pet Insurance page');
 });
 
 // Travel Insurance page test
@@ -156,7 +158,7 @@ test('Travel Insurance page verification', async ({ page }) => {
   const page3 = await page3Promise;
   await expect(page.getByRole('button', { name: 'Subscribe' })).toBeVisible();
   await expect(page.getByRole('link', { name: 'forbes', exact: true })).toBeVisible();
-  await trackPerformanceMetrics(page, 'Travel Insurance page');
+  await verifyCommonElements(page);
 });
 
 // Business page test
@@ -169,7 +171,7 @@ test('Business page verification', async ({ page }) => {
   await expect(page.getByRole('img', { name: 'Starting Your Small Business' })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Subscribe' })).toBeVisible();
   await expect(page.getByRole('link', { name: 'forbes', exact: true })).toBeVisible();
-  await trackPerformanceMetrics(page, 'Business page');
+  await verifyCommonElements(page);
 });
 
 // Cryptocurrency page test
@@ -182,7 +184,7 @@ test('Cryptocurrency page verification', async ({ page }) => {
   await expect(page.getByRole('button', { name: 'Subscribe' })).toBeVisible();
   await expect(page.getByRole('link', { name: 'Investing In Cryptocurrency' })).toBeVisible();
   await expect(page.getByRole('link', { name: 'forbes', exact: true })).toBeVisible();
-  await trackPerformanceMetrics(page, 'Cryptocurrency page');
+  await verifyCommonElements(page);
 });
 
 // Personal Loans page test
@@ -192,7 +194,6 @@ test('Personal Loans page verification', async ({ page }) => {
   await page.mouse.click(Math.random() * 1000, Math.random() * 1000);
   await expect(page.locator('h1')).toContainText('Our Pick Of The Best Personal Loans For Australians');
   await verifyCommonElements(page);
-  await trackPerformanceMetrics(page, 'Personal Loans page');
 });
 
 // Savings Accounts page test
@@ -202,7 +203,6 @@ test('Savings Accounts page verification', async ({ page }) => {
   await page.mouse.click(Math.random() * 1000, Math.random() * 1000);
   await expect(page.locator('h1')).toContainText('Our Pick Of The Best High-Interest Savings Accounts In Australia');
   await verifyCommonElements(page);
-  await trackPerformanceMetrics(page, 'Savings Accounts page');
 });
 
 
