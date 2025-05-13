@@ -8,12 +8,12 @@ if (!fs.existsSync(screenshotsDir)) {
   fs.mkdirSync(screenshotsDir);
 }
 
-test('Full audit for CA site', async ({ page }) => {
+test('Full audit for IT site', async ({ page }) => {
   const start = Date.now();
   const title = test.info().title.replace(/ /g, '-');
 
   try {
-    console.log(`[STATUS] Starting audit for CA site`);
+    console.log(`[STATUS] Starting audit for IT site`);
 
     // Set consistent viewport
     await page.setViewportSize({ width: 1280, height: 720 });
@@ -23,38 +23,38 @@ test('Full audit for CA site', async ({ page }) => {
       console.error('[RUNTIME ERROR]', error);
     });
 
-    await page.goto('https://www.forbes.com/advisor/ca/', { waitUntil: 'load' });
+    await page.goto('https://www.forbes.com/advisor/it/', { waitUntil: 'load' });
 
-    const loadTime = ((Date.now() - start) / 1000).toFixed(3);
+    const loadTime = ((Date.now() - start) / 1000).toFixed(2);
     test.info().annotations.push({ type: 'metric', description: `LoadTime:${loadTime}` });
 
     // UI Heading check
-    const heading = page.getByRole('heading', { name: 'Smart Financial Decisions Made Simple' });
+    const heading = page.getByRole('heading', { name: 'Scelte finanziarie intelligenti in tutta semplicità' });
     await expect(heading).toBeVisible();
-    console.log('[INFO] UI heading check passed for CA');
+    console.log('[INFO] UI heading check passed for IT');
 
     // Extract top 10 slowest resources
     const performanceEntries = await page.evaluate(() => {
       return performance.getEntriesByType('resource')
         .map(entry => ({
           name: entry.name,
-          duration: Number(entry.duration.toFixed(1)),
+          duration: Number(entry.duration.toFixed(3)),
           initiatorType: (entry as PerformanceResourceTiming).initiatorType || 'unknown'
         }))
         .sort((a, b) => b.duration - a.duration)
         .slice(0, 10);
     });
 
-    console.log('Top 10 slowest resources for CA:');
+    console.log('Top 10 slowest resources for IT:');
     console.table(performanceEntries);
 
     // Screenshot on success
     await page.screenshot({ path: path.join(screenshotsDir, `${title}.png`), fullPage: true });
-    console.log(`[INFO] Screenshot saved for CA site audit`);
+    console.log(`[INFO] Screenshot saved for IT site audit`);
 
-    console.log('[STATUS] CA site audit complete ✅');
+    console.log('[STATUS] IT site audit complete ✅');
   } catch (error) {
-    console.error('[ERROR] CA site audit failed ❌', error);
+    console.error('[ERROR] IT site audit failed ❌', error);
 
     // Screenshot on failure
     await page.screenshot({ path: path.join(screenshotsDir, `${title}-failure.png`), fullPage: true });

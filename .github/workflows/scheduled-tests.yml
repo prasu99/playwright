@@ -1,0 +1,55 @@
+name: Scheduled Tests
+
+on:
+  schedule:
+    - cron: '0 */3 * * *'  # Runs every 3 hours
+  workflow_dispatch:  # Allows manual triggering
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        
+    - name: Install dependencies
+      run: npm install
+      
+    - name: Install Playwright browsers
+      run: npx playwright install --with-deps
+      
+    - name: Create test results directory
+      run: mkdir -p test-results
+      
+    - name: Run AU Tests
+      run: npx playwright test tests/AU.spec.ts --reporter=html
+      continue-on-error: true
+      
+    - name: Run CA Tests
+      run: npx playwright test tests/CA.spec.ts --reporter=html
+      continue-on-error: true
+      
+    - name: Run IT Tests
+      run: npx playwright test tests/IT.spec.ts --reporter=html
+      continue-on-error: true
+      
+    - name: Move test results
+      run: |
+        mv playwright-report/* test-results/
+        mv test-results/playwright-report.html test-results/$(date +%Y-%m-%d_%H-%M-%S)_report.html
+      
+    - name: Configure Git
+      run: |
+        git config --global user.name 'GitHub Actions'
+        git config --global user.email 'actions@github.com'
+        
+    - name: Commit and push test results
+      run: |
+        git add test-results/
+        git commit -m "Update test results $(date +%Y-%m-%d_%H-%M-%S)" || echo "No changes to commit"
+        git push 
