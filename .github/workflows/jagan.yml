@@ -25,16 +25,18 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
       
-    - name: Run CA Playwright tests
-      run: npx playwright test tests/AU.spec.ts
+    - name: Run AU Playwright tests
+      run: npx playwright test AU.spec.ts
       
     - name: Generate HTML report
+      if: always()
       run: npx playwright show-report
       
     - name: Upload test results
+      if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: ca-test-results
+        name: au-test-results
         path: |
           playwright-report/
           test-results/
