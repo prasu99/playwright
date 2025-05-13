@@ -1,85 +1,41 @@
-name: Playwright Site Status
+name: Playwright CA Tests
 
 on:
-  schedule:
-    - cron: "0 0 * * FRI"
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
   workflow_dispatch:
 
 jobs:
-  site-check:
+  test:
+    timeout-minutes: 60
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        site: [AU]
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
-      - name: Install dependencies and Chromium only
-        run: |
-          npm install
-          npx playwright install chromium
-
-      - name: Run Playwright tests for ${{ matrix.site }}
-        run: |
-          SITE=${{ matrix.site }}
-          mkdir -p reports/$SITE
-
-          TEST_FILE="sites/${SITE}.spec.ts"
-
-          echo "Running test file: $TEST_FILE"
-
-          # Function to add delay
-          delay() {
-            echo "Waiting for 60 seconds..."
-            sleep 60
-          }
-
-          if npx playwright test "$TEST_FILE" --reporter=html --output=reports/$SITE; then
-            echo "${SITE} ✅ Site check passed" > reports/$SITE/combined-status.txt
-            delay
-          else
-            echo "${SITE} ❌ Site check failed" > reports/$SITE/combined-status.txt
-            delay
-          fi
-
-      - name: Upload site report
-        uses: actions/upload-artifact@v4
-        with:
-          name: report-${{ matrix.site }}
-          path: |
-            screenshots/
-            reports/performance-metrics.csv
-
-      - name: Upload site status
-        uses: actions/upload-artifact@v4
-        with:
-          name: status-${{ matrix.site }}
-          path: reports/${{ matrix.site }}/combined-status.txt
-
-  notify:
-    needs: site-check
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Download only status artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: status-reports
-
-      - name: Merge unique site statuses
-        run: |
-          echo "Site Status Check Summary" > final-status.txt
-          
-          for dir in status-reports/status-*; do
-            cat "$dir/combined-status.txt" >> final-status.txt
-          done
-          
-          echo "View Run: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> final-status.txt
-          cat final-status.txt
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps
+      
+    - name: Run CA Playwright tests
+      run: npx playwright test tests/CA.spec.ts
+      
+    - name: Generate HTML report
+      run: npx playwright show-report
+      
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      with:
+        name: ca-test-results
+        path: |
+          playwright-report/
+          test-results/
+        retention-days: 30 
