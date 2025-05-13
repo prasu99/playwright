@@ -1,11 +1,7 @@
 name: Playwright AU Tests
 
 on:
-  push:
-    branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
-  workflow_dispatch:
+  workflow_dispatch:  # Allows manual triggering
 
 jobs:
   test:
@@ -25,12 +21,53 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
       
-    - name: Run AU Playwright tests
-      run: npx playwright test AU.spec.ts
+    - name: Create directories
+      run: |
+        mkdir -p test-results
+        mkdir -p screenshots
+        mkdir -p reports
       
-    - name: Generate HTML report
+    - name: Run AU Playwright tests
+      run: |
+        # Function to add delay
+        delay() {
+          echo "Waiting for 60 seconds..."
+          sleep 60
+        }
+        
+        if npx playwright test tests/AU.spec.ts --reporter=html,json,list; then
+          echo "AU ✅ Tests passed" > test-results/status.txt
+          delay
+        else
+          echo "AU ❌ Tests failed" > test-results/status.txt
+          delay
+        fi
+      
+    - name: Organize test results
       if: always()
-      run: npx playwright show-report
+      run: |
+        # Move HTML report
+        mv playwright-report/* test-results/
+        mv test-results/playwright-report.html test-results/$(date +%Y-%m-%d_%H-%M-%S)_report.html
+        
+        # Move screenshots
+        mv screenshots/* test-results/screenshots/
+        
+        # Move performance reports
+        mv reports/* test-results/reports/
+        
+        # Create summary file
+        echo "# Test Run Summary - $(date)" > test-results/summary.md
+        echo "## Test Status" >> test-results/summary.md
+        cat test-results/status.txt >> test-results/summary.md
+        echo "" >> test-results/summary.md
+        echo "## Performance Reports" >> test-results/summary.md
+        echo "\`\`\`" >> test-results/summary.md
+        cat test-results/reports/performance-metrics.csv >> test-results/summary.md
+        echo "\`\`\`" >> test-results/summary.md
+        echo "" >> test-results/summary.md
+        echo "## Screenshots" >> test-results/summary.md
+        echo "Screenshots are available in the \`screenshots\` directory" >> test-results/summary.md
       
     - name: Upload test results
       if: always()
@@ -38,6 +75,7 @@ jobs:
       with:
         name: au-test-results
         path: |
-          playwright-report/
           test-results/
-        retention-days: 30 
+          screenshots/
+          reports/
+        retention-days: 7 
