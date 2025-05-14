@@ -1,4 +1,4 @@
-name: Playwright Test Results
+name: sch Test Results
 
 on:
   schedule:
