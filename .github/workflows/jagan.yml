@@ -31,8 +31,7 @@ jobs:
           SITE=${{ matrix.site }}
           mkdir -p reports/$SITE
           
-          TEST_FILE="sites/${SITE}.spec.ts"
-          echo "Running test file: $TEST_FILE"
+            echo "Running ${FILE_NAME}.spec.ts only..."
 
           if npx playwright test "$TEST_FILE"; then
             echo "${SITE} ✅ Site check passed" > reports/$SITE/combined-status.txt
