@@ -1,81 +1,55 @@
-name: Playwright AU Tests
+name: Playwright Site Status
 
 on:
-  workflow_dispatch:  # Allows manual triggering
+  schedule:
+    - cron: "0 */3 * * *"
+  workflow_dispatch:
 
 jobs:
-  test:
-    timeout-minutes: 60
+  site-check:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        site: [AU, IT, CA]
+
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: 20
-        
-    - name: Install dependencies
-      run: npm ci
-      
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
-      
-    - name: Create directories
-      run: |
-        mkdir -p test-results
-        mkdir -p screenshots
-        mkdir -p reports
-      
-    - name: Run AU Playwright tests
-      run: |
-        # Function to add delay
-        delay() {
-          echo "Waiting for 60 seconds..."
-          sleep 60
-        }
-        
-        if npx playwright test tests/AU.spec.ts --reporter=html,json,list; then
-          echo "AU ✅ Tests passed" > test-results/status.txt
-          delay
-        else
-          echo "AU ❌ Tests failed" > test-results/status.txt
-          delay
-        fi
-      
-    - name: Organize test results
-      if: always()
-      run: |
-        # Move HTML report
-        mv playwright-report/* test-results/
-        mv test-results/playwright-report.html test-results/$(date +%Y-%m-%d_%H-%M-%S)_report.html
-        
-        # Move screenshots
-        mv screenshots/* test-results/screenshots/
-        
-        # Move performance reports
-        mv reports/* test-results/reports/
-        
-        # Create summary file
-        echo "# Test Run Summary - $(date)" > test-results/summary.md
-        echo "## Test Status" >> test-results/summary.md
-        cat test-results/status.txt >> test-results/summary.md
-        echo "" >> test-results/summary.md
-        echo "## Performance Reports" >> test-results/summary.md
-        echo "\`\`\`" >> test-results/summary.md
-        cat test-results/reports/performance-metrics.csv >> test-results/summary.md
-        echo "\`\`\`" >> test-results/summary.md
-        echo "" >> test-results/summary.md
-        echo "## Screenshots" >> test-results/summary.md
-        echo "Screenshots are available in the \`screenshots\` directory" >> test-results/summary.md
-      
-    - name: Upload test results
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: au-test-results
-        path: |
-          test-results/
-          screenshots/
-          reports/
-        retention-days: 7 
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies and Chromium only
+        run: |
+          npm install
+          npx playwright install chromium
+
+      - name: Run Playwright tests for ${{ matrix.site }}
+        run: |
+          SITE=${{ matrix.site }}
+          mkdir -p reports/$SITE
+          
+          TEST_FILE="sites/${SITE}.spec.ts"
+          echo "Running test file: $TEST_FILE"
+
+          if npx playwright test "$TEST_FILE"; then
+            echo "${SITE} ✅ Site check passed" > reports/$SITE/combined-status.txt
+          else
+            echo "${SITE} ❌ Site check failed" > reports/$SITE/combined-status.txt
+          fi
+
+      - name: Upload screenshots and performance CSV
+        uses: actions/upload-artifact@v4
+        with:
+          name: report-${{ matrix.site }}
+          path: |
+            screenshots/
+            reports/performance-metrics.csv
+
+      - name: Upload site status file
+        uses: actions/upload-artifact@v4
+        with:
+          name: status-${{ matrix.site }}
+          path: reports/${{ matrix.site }}/combined-status.txt
